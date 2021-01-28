@@ -1,0 +1,432 @@
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_cloudwatch_dashboard.dw_dashboard will be created
+  + resource "aws_cloudwatch_dashboard" "dw_dashboard" {
+      + dashboard_arn  = (known after apply)
+      + dashboard_name = "data-warehouse-monitoring"
+      + id             = (known after apply)
+    }
+
+  # aws_glue_catalog_database.glue_catalog_database will be created
+  + resource "aws_glue_catalog_database" "glue_catalog_database" {
+      + arn         = (known after apply)
+      + catalog_id  = (known after apply)
+      + description = "catalog form s3 lake"
+      + id          = (known after apply)
+      + name        = "data-lake"
+    }
+
+  # aws_glue_crawler.glue_crawler will be created
+  + resource "aws_glue_crawler" "glue_crawler" {
+      + arn           = (known after apply)
+      + database_name = "data-lake"
+      + description   = "Crawler for ETL layer"
+      + id            = (known after apply)
+      + name          = "glue-crawler"
+      + role          = "edit-this"
+
+      + jdbc_target {
+          + connection_name = "s3_target"
+          + exclusions      = []
+          + path            = "data-lake"
+        }
+    }
+
+  # aws_glue_job.glue_job will be created
+  + resource "aws_glue_job" "glue_job" {
+      + arn               = (known after apply)
+      + description       = "ETLs for Batch Layer"
+      + glue_version      = (known after apply)
+      + id                = (known after apply)
+      + max_capacity      = (known after apply)
+      + name              = "etl_job"
+      + number_of_workers = 2
+      + role_arn          = (known after apply)
+      + timeout           = 12
+
+      + command {
+          + name            = "glueetl"
+          + python_version  = (known after apply)
+          + script_location = "edit-with-s3-script-path"
+        }
+
+      + execution_property {
+          + max_concurrent_runs = (known after apply)
+        }
+
+      + notification_property {
+          + notify_delay_after = (known after apply)
+        }
+    }
+
+  # aws_instance.amundsen will be created
+  + resource "aws_instance" "amundsen" {
+      + ami                          = "ami-0a313d6098716f372"
+      + arn                          = (known after apply)
+      + associate_public_ip_address  = (known after apply)
+      + availability_zone            = (known after apply)
+      + cpu_core_count               = (known after apply)
+      + cpu_threads_per_core         = (known after apply)
+      + get_password_data            = false
+      + host_id                      = (known after apply)
+      + id                           = (known after apply)
+      + instance_state               = (known after apply)
+      + instance_type                = "t2.micro"
+      + ipv6_address_count           = (known after apply)
+      + ipv6_addresses               = (known after apply)
+      + key_name                     = (known after apply)
+      + outpost_arn                  = (known after apply)
+      + password_data                = (known after apply)
+      + placement_group              = (known after apply)
+      + primary_network_interface_id = (known after apply)
+      + private_dns                  = (known after apply)
+      + private_ip                   = (known after apply)
+      + public_dns                   = (known after apply)
+      + public_ip                    = (known after apply)
+      + secondary_private_ips        = (known after apply)
+      + security_groups              = (known after apply)
+      + source_dest_check            = true
+      + subnet_id                    = (known after apply)
+      + tags                         = {
+          + "Name" = "amundsen"
+        }
+      + tenancy                      = (known after apply)
+      + vpc_security_group_ids       = (known after apply)
+
+      + ebs_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + snapshot_id           = (known after apply)
+          + tags                  = (known after apply)
+          + throughput            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+
+      + enclave_options {
+          + enabled = (known after apply)
+        }
+
+      + ephemeral_block_device {
+          + device_name  = (known after apply)
+          + no_device    = (known after apply)
+          + virtual_name = (known after apply)
+        }
+
+      + metadata_options {
+          + http_endpoint               = (known after apply)
+          + http_put_response_hop_limit = (known after apply)
+          + http_tokens                 = (known after apply)
+        }
+
+      + network_interface {
+          + delete_on_termination = (known after apply)
+          + device_index          = (known after apply)
+          + network_interface_id  = (known after apply)
+        }
+
+      + root_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + tags                  = (known after apply)
+          + throughput            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+    }
+
+  # aws_instance.panoptes will be created
+  + resource "aws_instance" "panoptes" {
+      + ami                          = "ami-0a313d6098716f372"
+      + arn                          = (known after apply)
+      + associate_public_ip_address  = (known after apply)
+      + availability_zone            = (known after apply)
+      + cpu_core_count               = (known after apply)
+      + cpu_threads_per_core         = (known after apply)
+      + get_password_data            = false
+      + host_id                      = (known after apply)
+      + id                           = (known after apply)
+      + instance_state               = (known after apply)
+      + instance_type                = "t2.micro"
+      + ipv6_address_count           = (known after apply)
+      + ipv6_addresses               = (known after apply)
+      + key_name                     = (known after apply)
+      + outpost_arn                  = (known after apply)
+      + password_data                = (known after apply)
+      + placement_group              = (known after apply)
+      + primary_network_interface_id = (known after apply)
+      + private_dns                  = (known after apply)
+      + private_ip                   = (known after apply)
+      + public_dns                   = (known after apply)
+      + public_ip                    = (known after apply)
+      + secondary_private_ips        = (known after apply)
+      + security_groups              = (known after apply)
+      + source_dest_check            = true
+      + subnet_id                    = (known after apply)
+      + tags                         = {
+          + "Name" = "panoptes"
+        }
+      + tenancy                      = (known after apply)
+      + vpc_security_group_ids       = (known after apply)
+
+      + ebs_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + snapshot_id           = (known after apply)
+          + tags                  = (known after apply)
+          + throughput            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+
+      + enclave_options {
+          + enabled = (known after apply)
+        }
+
+      + ephemeral_block_device {
+          + device_name  = (known after apply)
+          + no_device    = (known after apply)
+          + virtual_name = (known after apply)
+        }
+
+      + metadata_options {
+          + http_endpoint               = (known after apply)
+          + http_put_response_hop_limit = (known after apply)
+          + http_tokens                 = (known after apply)
+        }
+
+      + network_interface {
+          + delete_on_termination = (known after apply)
+          + device_index          = (known after apply)
+          + network_interface_id  = (known after apply)
+        }
+
+      + root_block_device {
+          + delete_on_termination = (known after apply)
+          + device_name           = (known after apply)
+          + encrypted             = (known after apply)
+          + iops                  = (known after apply)
+          + kms_key_id            = (known after apply)
+          + tags                  = (known after apply)
+          + throughput            = (known after apply)
+          + volume_id             = (known after apply)
+          + volume_size           = (known after apply)
+          + volume_type           = (known after apply)
+        }
+    }
+
+  # aws_internet_gateway.main will be created
+  + resource "aws_internet_gateway" "main" {
+      + arn      = (known after apply)
+      + id       = (known after apply)
+      + owner_id = (known after apply)
+      + vpc_id   = (known after apply)
+    }
+
+  # aws_lambda_function.test_lambda will be created
+  + resource "aws_lambda_function" "test_lambda" {
+      + arn                            = (known after apply)
+      + filename                       = "lambda_function_payload.zip"
+      + function_name                  = "lambda_for _glue_trigger"
+      + handler                        = "exports.test"
+      + id                             = (known after apply)
+      + invoke_arn                     = (known after apply)
+      + last_modified                  = (known after apply)
+      + memory_size                    = 128
+      + package_type                   = "Zip"
+      + publish                        = false
+      + qualified_arn                  = (known after apply)
+      + reserved_concurrent_executions = -1
+      + role                           = "role_of aws_account"
+      + runtime                        = "python3.8"
+      + signing_job_arn                = (known after apply)
+      + signing_profile_version_arn    = (known after apply)
+      + source_code_hash               = "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+      + source_code_size               = (known after apply)
+      + timeout                        = 3
+      + version                        = (known after apply)
+
+      + tracing_config {
+          + mode = (known after apply)
+        }
+    }
+
+  # aws_redshift_cluster.this will be created
+  + resource "aws_redshift_cluster" "this" {
+      + allow_version_upgrade               = true
+      + arn                                 = (known after apply)
+      + automated_snapshot_retention_period = 1
+      + availability_zone                   = (known after apply)
+      + cluster_identifier                  = "data-warehouse"
+      + cluster_parameter_group_name        = "etl"
+      + cluster_public_key                  = (known after apply)
+      + cluster_revision_number             = (known after apply)
+      + cluster_security_groups             = (known after apply)
+      + cluster_subnet_group_name           = "etl"
+      + cluster_type                        = "single-node"
+      + cluster_version                     = "1.0"
+      + database_name                       = "master_database"
+      + dns_name                            = (known after apply)
+      + encrypted                           = false
+      + endpoint                            = (known after apply)
+      + enhanced_vpc_routing                = (known after apply)
+      + iam_roles                           = (known after apply)
+      + id                                  = (known after apply)
+      + kms_key_id                          = (known after apply)
+      + master_password                     = (sensitive value)
+      + master_username                     = "etlmaster"
+      + node_type                           = "dc2.8xlarge"
+      + number_of_nodes                     = 1
+      + port                                = 5439
+      + preferred_maintenance_window        = (known after apply)
+      + publicly_accessible                 = true
+      + skip_final_snapshot                 = false
+      + vpc_security_group_ids              = (known after apply)
+    }
+
+  # aws_route_table.external will be created
+  + resource "aws_route_table" "external" {
+      + id               = (known after apply)
+      + owner_id         = (known after apply)
+      + propagating_vgws = (known after apply)
+      + route            = [
+          + {
+              + cidr_block                = "0.0.0.0/0"
+              + egress_only_gateway_id    = ""
+              + gateway_id                = (known after apply)
+              + instance_id               = ""
+              + ipv6_cidr_block           = ""
+              + local_gateway_id          = ""
+              + nat_gateway_id            = ""
+              + network_interface_id      = ""
+              + transit_gateway_id        = ""
+              + vpc_endpoint_id           = ""
+              + vpc_peering_connection_id = ""
+            },
+        ]
+      + vpc_id           = (known after apply)
+    }
+
+  # aws_route_table_association.external-main will be created
+  + resource "aws_route_table_association" "external-main" {
+      + id             = (known after apply)
+      + route_table_id = (known after apply)
+      + subnet_id      = "subnet-id"
+    }
+
+  # aws_s3_bucket.lake will be created
+  + resource "aws_s3_bucket" "lake" {
+      + acceleration_status         = (known after apply)
+      + acl                         = "private"
+      + arn                         = (known after apply)
+      + bucket                      = "data-lake"
+      + bucket_domain_name          = (known after apply)
+      + bucket_regional_domain_name = (known after apply)
+      + force_destroy               = false
+      + hosted_zone_id              = (known after apply)
+      + id                          = (known after apply)
+      + region                      = (known after apply)
+      + request_payer               = (known after apply)
+      + tags                        = {
+          + "Environment" = "Dev"
+          + "Name"        = "lake"
+          + "Product"     = "data-lake"
+        }
+      + website_domain              = (known after apply)
+      + website_endpoint            = (known after apply)
+
+      + versioning {
+          + enabled    = (known after apply)
+          + mfa_delete = (known after apply)
+        }
+    }
+
+  # aws_security_group.load_balancers will be created
+  + resource "aws_security_group" "load_balancers" {
+      + arn                    = (known after apply)
+      + description            = "Allows traffic"
+      + egress                 = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 0
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "-1"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 0
+            },
+        ]
+      + id                     = (known after apply)
+      + ingress                = [
+          + {
+              + cidr_blocks      = [
+                  + "0.0.0.0/0",
+                ]
+              + description      = ""
+              + from_port        = 0
+              + ipv6_cidr_blocks = []
+              + prefix_list_ids  = []
+              + protocol         = "-1"
+              + security_groups  = []
+              + self             = false
+              + to_port          = 0
+            },
+        ]
+      + name                   = "load_balancers"
+      + owner_id               = (known after apply)
+      + revoke_rules_on_delete = false
+      + vpc_id                 = (known after apply)
+    }
+
+  # aws_vpc.main will be created
+  + resource "aws_vpc" "main" {
+      + arn                              = (known after apply)
+      + assign_generated_ipv6_cidr_block = false
+      + cidr_block                       = "10.0.0.0/16"
+      + default_network_acl_id           = (known after apply)
+      + default_route_table_id           = (known after apply)
+      + default_security_group_id        = (known after apply)
+      + dhcp_options_id                  = (known after apply)
+      + enable_classiclink               = (known after apply)
+      + enable_classiclink_dns_support   = (known after apply)
+      + enable_dns_hostnames             = true
+      + enable_dns_support               = true
+      + id                               = (known after apply)
+      + instance_tenancy                 = "default"
+      + ipv6_association_id              = (known after apply)
+      + ipv6_cidr_block                  = (known after apply)
+      + main_route_table_id              = (known after apply)
+      + owner_id                         = (known after apply)
+    }
+
+  # module.sns_topic.aws_sns_topic.this[0] will be created
+  + resource "aws_sns_topic" "this" {
+      + arn    = (known after apply)
+      + id     = (known after apply)
+      + name   = "my-topic"
+      + policy = (known after apply)
+    }
+
+Plan: 15 to add, 0 to change, 0 to destroy.
+
